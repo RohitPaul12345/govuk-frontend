@@ -293,6 +293,10 @@
     // feedback to the user as to which radio they will select when their
     // cursor is outside of the visible area.
     .govuk-radios__item:hover .govuk-radios__input:not(:disabled) + .govuk-radios__label::before {
+      // Forced colours modes tend to ignore box-shadow.
+      // Apply an outline for those modes to use instead.
+      outline: $govuk-radios-focus-width dashed transparent;
+      outline-offset: $govuk-radios-focus-width;
       box-shadow: 0 0 0 $govuk-hover-width $govuk-hover-colour;
     }
 
