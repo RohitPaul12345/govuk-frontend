@@ -89,17 +89,17 @@ module.exports = {
 }
 
 /**
- * Component data from YAML
+ * Component data
  *
  * @typedef {object} ComponentData
- * @property {ComponentOption[]} [params] - Nunjucks macro options
- * @property {ComponentExample[]} [examples] - Example Nunjucks macro options
+ * @property {ComponentOption[]} params - Nunjucks macro options (or params)
+ * @property {ComponentExample[]} examples - Examples of Nunjucks macro options (or params)
  * @property {string} [previewLayout] - Nunjucks layout for component preview
  * @property {string} [accessibilityCriteria] - Accessibility criteria
  */
 
 /**
- * Component option from YAML
+ * Nunjucks macro option (or param)
  *
  * @typedef {object} ComponentOption
  * @property {string} name - Option name
@@ -111,10 +111,12 @@ module.exports = {
  */
 
 /**
- * Component example from YAML
+ * Example of Nunjucks macro options (or params)
  *
  * @typedef {object} ComponentExample
  * @property {string} name - Example name
- * @property {object} data - Example data
+ * @property {string} [description] - Example description
+ * @property {string[]} [previewLayoutModifiers] - Component preview layout class modifiers
  * @property {boolean} [hidden] - Example hidden from review app
+ * @property {object} data - Example data
  */

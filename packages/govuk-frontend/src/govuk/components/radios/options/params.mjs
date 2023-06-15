@@ -125,6 +125,7 @@ export const params = [
           {
             name: 'html',
             type: 'string',
+            required: true,
             description: 'The HTML to reveal when the radio is checked'
           }
         ]

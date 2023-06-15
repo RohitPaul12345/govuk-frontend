@@ -26,7 +26,9 @@ export const params = [
       {
         name: 'key.html',
         type: 'string',
-        required: true
+        required: true,
+        description:
+          'If `text` is set, this is not required. HTML to use within the each key. If `html` is provided, the `text` option will be ignored.'
       },
       {
         name: 'key.classes',
