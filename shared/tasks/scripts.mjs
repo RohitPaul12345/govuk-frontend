@@ -1,4 +1,4 @@
-import { format, join, parse } from 'path'
+import { format, join, parse, relative } from 'path'
 
 import { getListing } from 'govuk-frontend-lib/files'
 import PluginError from 'plugin-error'
@@ -35,7 +35,7 @@ export async function compile (pattern, options) {
  *
  * @param {AssetEntry} assetEntry - Asset entry
  */
-export async function compileJavaScript ([modulePath, { configPath, srcPath, destPath, filePath = format }]) {
+export async function compileJavaScript ([modulePath, { basePath, configPath, srcPath, destPath, filePath = format }]) {
   const file = parse(modulePath)
 
   // Rollup config
@@ -56,6 +56,8 @@ export async function compileJavaScript ([modulePath, { configPath, srcPath, des
 
     // Compile JavaScript to output format
     await Promise.all(options.output.map((output) => {
+      output.preserveModulesRoot = relative(basePath, srcPath)
+
       switch (output.format) {
         case 'es':
         case 'esm':

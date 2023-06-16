@@ -74,8 +74,8 @@ describe('packages/govuk-frontend/dist/', () => {
         join(requirePath, `${name}.js.map`) // with source map
       ]))
 
-      // Only source `./govuk/**/*.mjs` files compiled to UMD bundles
-      .flatMap(mapPathTo(['**/govuk/**/*.mjs'], ({ dir: requirePath, name }) => [
+      // Only package entries and components are compiled to UMD bundles
+      .flatMap(mapPathTo(['**/govuk/{all,components/**/*}.mjs'], ({ dir: requirePath, name }) => [
         join(requirePath, `${name}.mjs`),
 
         // UMD bundles for compatibility (e.g. Rails Asset Pipeline)
@@ -229,19 +229,6 @@ describe('packages/govuk-frontend/dist/', () => {
 
         // Look for CommonJS named exports for utilities
         expect(contents).toContain('exports.initAll = initAll;')
-        expect(contents).toContain('exports.version = version;')
-      })
-    })
-
-    describe('common/govuk-frontend-version.bundle.js', () => {
-      it('should have correct version number', async () => {
-        const contents = await readFile(join(paths.package, 'dist/govuk/common/govuk-frontend-version.bundle.js'), 'utf8')
-
-        // Look for AMD module definition for 'GOVUKFrontend'
-        expect(contents).toContain("typeof define === 'function' && define.amd ? define('GOVUKFrontend', ['exports'], factory)")
-
-        // Look for CommonJS `version` named export
-        expect(contents).toContain(`const version = '${pkg.version}';`)
         expect(contents).toContain('exports.version = version;')
       })
     })
