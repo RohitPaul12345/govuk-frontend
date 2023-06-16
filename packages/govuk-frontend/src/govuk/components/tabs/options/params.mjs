@@ -68,7 +68,7 @@ export const params = [
             type: 'string',
             required: true,
             description:
-              'If `text` is set, this is not required. HTML to use within the each tab panel. If `html` is provided, the `text` option will be ignored.'
+              'If `text` is set, this is not required. HTML to use within each tab panel. If `html` is provided, the `text` option will be ignored.'
           },
           {
             name: 'attributes',

@@ -21,14 +21,14 @@ export const params = [
         type: 'string',
         required: true,
         description:
-          'If `html` is set, this is not required. Text to use within the each key. If `html` is provided, the `text` option will be ignored.'
+          'If `html` is set, this is not required. Text to use within each key. If `html` is provided, the `text` option will be ignored.'
       },
       {
         name: 'key.html',
         type: 'string',
         required: true,
         description:
-          'If `text` is set, this is not required. HTML to use within the each key. If `html` is provided, the `text` option will be ignored.'
+          'If `text` is set, this is not required. HTML to use within each key. If `html` is provided, the `text` option will be ignored.'
       },
       {
         name: 'key.classes',
@@ -41,14 +41,14 @@ export const params = [
         type: 'string',
         required: true,
         description:
-          'If `html` is set, this is not required. Text to use within the each value. If `html` is provided, the `text` option will be ignored.'
+          'If `html` is set, this is not required. Text to use within each value. If `html` is provided, the `text` option will be ignored.'
       },
       {
         name: 'value.html',
         type: 'string',
         required: true,
         description:
-          'If `text` is set, this is not required. HTML to use within the each value. If `html` is provided, the `text` option will be ignored.'
+          'If `text` is set, this is not required. HTML to use within each value. If `html` is provided, the `text` option will be ignored.'
       },
       {
         name: 'value.classes',
@@ -87,7 +87,7 @@ export const params = [
             type: 'string',
             required: true,
             description:
-              'If `text` is set, this is not required. HTML to use within the each action item. If `html` is provided, the `text` option will be ignored.'
+              'If `text` is set, this is not required. HTML to use within each action item. If `html` is provided, the `text` option will be ignored.'
           },
           {
             name: 'visuallyHiddenText',
@@ -131,14 +131,14 @@ export const params = [
             type: 'string',
             required: false,
             description:
-              'Text to use within the each title. If `html` is provided, the `text` option will be ignored.'
+              'Text to use within each title. If `html` is provided, the `text` option will be ignored.'
           },
           {
             name: 'html',
             type: 'string',
             required: false,
             description:
-              'Text to use within the each title. If `html` is provided, the `text` option will be ignored.'
+              'Text to use within each title. If `html` is provided, the `text` option will be ignored.'
           },
           {
             name: 'headingLevel',
@@ -185,7 +185,7 @@ export const params = [
                 type: 'string',
                 required: true,
                 description:
-                  'If `text` is set, this is not required. HTML to use within the each action item. If `html` is provided, the `text` option will be ignored.'
+                  'If `text` is set, this is not required. HTML to use within each action item. If `html` is provided, the `text` option will be ignored.'
               },
               {
                 name: 'visuallyHiddenText',
