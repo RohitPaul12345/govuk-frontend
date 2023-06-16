@@ -10,21 +10,19 @@ import gulp from 'gulp'
  */
 export const compile = (options) => gulp.series(
   /**
-   * Generate GOV.UK Frontend fixtures.json from ${componentName}.yaml
+   * Generate GOV.UK Frontend fixtures.json from ${componentName}/options/data.mjs
    */
   task.name('compile:fixtures', () =>
-    components.generateFixtures('**/*.yaml', {
-      srcPath: join(options.srcPath, 'govuk/components'),
+    components.generateFixtures({
       destPath: join(options.destPath, 'govuk/components')
     })
   ),
 
   /**
-   * Generate GOV.UK Frontend macro-options.json from ${componentName}.yaml
+   * Generate GOV.UK Frontend macro-options.json from ${componentName}/options/data.mjs
    */
   task.name('compile:macro-options', () =>
-    components.generateMacroOptions('**/*.yaml', {
-      srcPath: join(options.srcPath, 'govuk/components'),
+    components.generateMacroOptions({
       destPath: join(options.destPath, 'govuk/components')
     })
   )

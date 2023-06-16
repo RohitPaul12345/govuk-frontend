@@ -4,7 +4,7 @@ describe('getComponentData', () => {
   it('rejects if unable to load component data', async () => {
     await expect(getComponentData('not-a-real-component'))
       .rejects
-      .toThrow(/ENOENT: no such file or directory/)
+      .toThrow(/Cannot find module/)
   })
 
   it('outputs objects with an array of params and examples', async () => {

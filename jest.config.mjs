@@ -45,6 +45,7 @@ const config = {
 
     // Transform some `*.js` to compatible CommonJS
     ...Object.fromEntries([
+      'govuk-frontend-lib/components',
       'del',
       'slash'
     ].map((packagePath) => [

@@ -26,7 +26,7 @@ export const compile = (options) => gulp.series(
    * Compile GOV.UK Frontend JavaScript (UMD bundles)
    */
   task.name('compile:js', () =>
-    scripts.compile('**/!(*.test).mjs', {
+    scripts.compile('**/!(data|params|examples|*.test).mjs', {
       ...options,
 
       srcPath: join(options.srcPath, 'govuk'),

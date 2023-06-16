@@ -1,6 +1,8 @@
-import { basename, dirname, join } from 'path'
+import { join } from 'path'
 
-import { getListing, getYaml } from 'govuk-frontend-lib/files'
+import { paths } from 'govuk-frontend-config'
+import { getComponentData, getComponentFiles, getComponentNames } from 'govuk-frontend-lib/components'
+import { filterPath } from 'govuk-frontend-lib/files'
 import nunjucks from 'nunjucks'
 
 import { files } from './index.mjs'
@@ -8,30 +10,22 @@ import { files } from './index.mjs'
 /**
  * Generate fixtures.json from component data
  *
- * @param {AssetEntry[0]} pattern - Path to ${componentName}.yaml
- * @param {Pick<AssetEntry[1], "srcPath" | "destPath">} options - Asset options
+ * @param {Pick<AssetEntry[1], "destPath">} options - Asset options
  */
-export async function generateFixtures (pattern, { srcPath, destPath }) {
-  const componentDataPaths = await getListing(pattern, {
-    cwd: srcPath
-  })
+export async function generateFixtures ({ destPath }) {
+  const componentNames = await getComponentNames()
 
-  // Loop component data paths
-  const fixtures = componentDataPaths.map(async (componentDataPath) => {
-    const fixture = await generateFixture(componentDataPath, { srcPath })
+  // Loop component names
+  const fixtures = componentNames.map(async (componentName) => {
+    const fixture = await generateFixture(componentName)
 
-    // Write to destination
-    await files.write(componentDataPath, {
+    // Write fixtures.json to destination
+    await files.write(join(componentName, 'fixtures.json'), {
       destPath,
-
-      // Rename to fixtures.json
-      filePath ({ dir }) {
-        return join(dir, 'fixtures.json')
-      },
 
       // Add fixtures as JSON (formatted)
       async fileContents () {
-        return JSON.stringify(fixture, null, 4)
+        return JSON.stringify(fixture, undefined, 2)
       }
     })
   })
@@ -42,30 +36,22 @@ export async function generateFixtures (pattern, { srcPath, destPath }) {
 /**
  * Generate macro-options.json from component data
  *
- * @param {AssetEntry[0]} pattern - Path to ${componentName}.yaml
- * @param {Pick<AssetEntry[1], "srcPath" | "destPath">} options - Asset options
+ * @param {Pick<AssetEntry[1], "destPath">} options - Asset options
  */
-export async function generateMacroOptions (pattern, { srcPath, destPath }) {
-  const componentDataPaths = await getListing(pattern, {
-    cwd: srcPath
-  })
+export async function generateMacroOptions ({ destPath }) {
+  const componentNames = await getComponentNames()
 
-  // Loop component data paths
-  const macroOptions = componentDataPaths.map(async (componentDataPath) => {
-    const macroOption = await generateMacroOption(componentDataPath, { srcPath })
+  // Loop component names
+  const macroOptions = componentNames.map(async (componentName) => {
+    const { params } = await getComponentData(componentName)
 
-    // Write to destination
-    await files.write(componentDataPath, {
+    // Write macro-options.json to destination
+    await files.write(join(componentName, 'macro-options.json'), {
       destPath,
-
-      // Rename to 'macro-options.json'
-      filePath ({ dir }) {
-        return join(dir, 'macro-options.json')
-      },
 
       // Add macro options as JSON (formatted)
       async fileContents () {
-        return JSON.stringify(macroOption, null, 4)
+        return JSON.stringify(params, undefined, 2)
       }
     })
   })
@@ -74,26 +60,23 @@ export async function generateMacroOptions (pattern, { srcPath, destPath }) {
 }
 
 /**
- * Component fixtures YAML to JSON
+ * Component fixtures to JSON
  *
- * @param {string} componentDataPath - Path to ${componentName}.yaml
- * @param {Pick<AssetEntry[1], "srcPath">} options - Asset options
+ * @param {string} componentName - Component name
  * @returns {Promise<{ component: string; fixtures: { [key: string]: unknown }[] }>} Component fixtures object
  */
-async function generateFixture (componentDataPath, options) {
-  /** @type {ComponentData} */
-  const json = await getYaml(join(options.srcPath, componentDataPath))
-
-  if (!json?.examples) {
-    throw new Error(`${componentDataPath} is missing "examples"`)
-  }
+async function generateFixture (componentName) {
+  const [componentFiles, componentData] = await Promise.all([
+    getComponentFiles(componentName),
+    getComponentData(componentName)
+  ])
 
   // Nunjucks template
-  const template = join(options.srcPath, dirname(componentDataPath), 'template.njk')
-  const componentName = basename(dirname(componentDataPath))
+  const [templatePath] = componentFiles
+    .filter(filterPath(['**/template.njk']))
 
   // Loop examples
-  const examples = json.examples.map(async (example) => {
+  const examples = componentData.examples.map(async (example) => {
     const context = { params: example.data }
 
     return {
@@ -104,7 +87,7 @@ async function generateFixture (componentDataPath, options) {
       // Wait for render to complete
       /** @type {string} */
       html: await new Promise((resolve, reject) => {
-        return nunjucks.render(template, context, (error, result) => {
+        return nunjucks.render(join(paths.root, templatePath), context, (error, result) => {
           return error ? reject(error) : resolve(result?.trim() ?? '')
         })
       })
@@ -115,24 +98,6 @@ async function generateFixture (componentDataPath, options) {
     component: componentName,
     fixtures: await Promise.all(examples)
   }
-}
-
-/**
- * Macro options YAML to JSON
- *
- * @param {string} componentDataPath - Path to ${componentName}.yaml
- * @param {Pick<AssetEntry[1], "srcPath">} options - Asset options
- * @returns {Promise<ComponentOption[] | undefined>} Component macro options
- */
-async function generateMacroOption (componentDataPath, options) {
-  /** @type {ComponentData} */
-  const json = await getYaml(join(options.srcPath, componentDataPath))
-
-  if (!json?.params) {
-    throw new Error(`${componentDataPath} is missing "params"`)
-  }
-
-  return json.params
 }
 
 /**

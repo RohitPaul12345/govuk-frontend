@@ -1,6 +1,6 @@
 const { join } = require('path')
 
-const { getYaml, getListing, getDirectories } = require('./files')
+const { getListing, getDirectories } = require('./files')
 const { packageNameToPath } = require('./names')
 
 /**
@@ -10,14 +10,14 @@ const { packageNameToPath } = require('./names')
  * @returns {Promise<ComponentData & { name: string }>} Component data
  */
 async function getComponentData (componentName) {
-  const yamlPath = join(packageNameToPath('govuk-frontend'), `src/govuk/components/${componentName}/${componentName}.yaml`)
+  const componentDataPath = join(packageNameToPath('govuk-frontend'), `src/govuk/components/${componentName}/options/data.mjs`)
 
-  /** @type {ComponentData} */
-  const yamlData = await getYaml(yamlPath)
+  /** @type {{ default: ComponentData }} */
+  const { default: componentData } = await import(componentDataPath)
 
   return {
     name: componentName,
-    ...yamlData
+    ...componentData
   }
 }
 
