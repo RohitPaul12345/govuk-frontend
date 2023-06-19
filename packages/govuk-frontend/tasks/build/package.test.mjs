@@ -121,6 +121,7 @@ describe('packages/govuk-frontend/dist/', () => {
     // Check top level package contents
     expect(listingPackage).toEqual([
       'README.md',
+      'babel.config.js',
       'govuk-prototype-kit.config.json',
       'gulpfile.mjs',
       'package.json',
