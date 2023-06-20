@@ -18,6 +18,7 @@
   <script type="module" src="/javascripts/all.bundle.min.mjs"></script>
   <script type="module">
     import { initAll } from '/javascripts/all.bundle.min.mjs'
-    initAll()
+    initAll().catch((error) =>
+      console.warn('GOV.UK Frontend init failed', error))
   </script>
 {% endblock %}
