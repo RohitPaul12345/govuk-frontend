@@ -20,20 +20,12 @@ module.exports = {
       files: ['**/coding-standards/css.md'],
       rules: {
         // Allow markdown `*.md` CSS bad examples
-        'block-closing-brace-space-before': null,
         'block-no-empty': null,
-        'block-opening-brace-space-after': null,
-        'color-hex-case': null,
         'color-hex-length': null,
         'declaration-block-single-line-max-declarations': null,
-        'declaration-block-trailing-semicolon': null,
-        'declaration-colon-space-after': null,
         'length-zero-no-unit': null,
-        'number-leading-zero': null,
-        'number-no-trailing-zeros': null,
         'rule-empty-line-before': null,
         'selector-max-id': null,
-        'string-quotes': null,
         'shorthand-property-no-redundant-values': null,
 
         // Allow markdown `*.md` Sass bad examples
