@@ -70,7 +70,7 @@ export const params = [
             name: 'tag',
             type: 'object',
             required: false,
-            descrption:
+            description:
               'Object containing the options for a tag that acts as the status for the task.',
             params: [
               {
