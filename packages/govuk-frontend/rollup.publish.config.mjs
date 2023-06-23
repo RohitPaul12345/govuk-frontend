@@ -1,14 +1,10 @@
 import replace from '@rollup/plugin-replace'
 import { pkg } from 'govuk-frontend-config'
+import { componentPathToModuleName } from 'govuk-frontend-lib/names'
 import { defineConfig } from 'rollup'
 
 /**
  * Rollup config for npm publish
- *
- * 1. CommonJS modules for Node.js `require()`
- *
- * 2. ECMAScript (ES) modules for browser <script type="module">
- *    or using `import` for modern browsers and Node.js scripts
  */
 export default defineConfig(({ i: input }) => ({
   input,
@@ -17,6 +13,9 @@ export default defineConfig(({ i: input }) => ({
    * Output options
    */
   output: [
+    /**
+     * CommonJS modules for Node.js or bundler `require()`
+     */
     {
       entryFileNames: '[name].js',
       format: 'cjs',
@@ -30,12 +29,31 @@ export default defineConfig(({ i: input }) => ({
       // Separate modules, not bundled
       preserveModules: true
     },
+
+    /**
+     * ECMAScript (ES) modules for Node.js or bundler `import`
+     */
     {
       entryFileNames: '[name].mjs',
       format: 'es',
 
       // Separate modules, not bundled
       preserveModules: true
+    },
+
+    /**
+     * Universal Module Definition (UMD) bundle for browser <script>
+     * `window` globals and compatibility with CommonJS and AMD `require()`
+     */
+    {
+      format: 'umd',
+
+      // Bundled modules
+      preserveModules: false,
+
+      // Components are given names (e.g window.GOVUKFrontend.Accordion)
+      amd: { id: componentPathToModuleName(input) },
+      name: componentPathToModuleName(input)
     }
   ],
 
