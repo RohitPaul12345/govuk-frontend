@@ -20,11 +20,21 @@ export default defineConfig(({ i: input }) => ({
     {
       entryFileNames: '[name].js',
       format: 'cjs',
+
+      // Allow "synthetic default" alongside named exports
+      // https://rollupjs.org/configuration-options/#output-esmodule
+      esModule: true,
+      exports: 'named',
+      interop: 'esModule',
+
+      // Separate modules, not bundled
       preserveModules: true
     },
     {
       entryFileNames: '[name].mjs',
       format: 'es',
+
+      // Separate modules, not bundled
       preserveModules: true
     }
   ],
