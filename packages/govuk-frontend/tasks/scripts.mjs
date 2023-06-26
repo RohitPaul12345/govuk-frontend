@@ -10,22 +10,22 @@ import gulp from 'gulp'
  */
 export const compile = (options) => gulp.series(
   /**
-   * Compile GOV.UK Frontend JavaScript (ES modules)
+   * Compile GOV.UK Frontend JavaScript (CommonJS and ES modules)
    */
-  task.name('compile:mjs', () =>
+  task.name("compile:js 'modules'", () =>
     scripts.compile('!(*.test).mjs', {
       ...options,
 
       srcPath: join(options.srcPath, 'govuk'),
-      destPath: join(options.destPath, 'govuk-esm'),
-      configPath: join(options.basePath, 'rollup.esm.config.mjs')
+      destPath: join(options.destPath, 'govuk'),
+      configPath: join(options.basePath, 'rollup.modules.config.mjs')
     })
   ),
 
   /**
    * Compile GOV.UK Frontend JavaScript (UMD bundles)
    */
-  task.name('compile:js', () =>
+  task.name("compile:js 'umd'", () =>
     scripts.compile('**/!(*.test).mjs', {
       ...options,
 

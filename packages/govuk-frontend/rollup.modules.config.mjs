@@ -5,8 +5,10 @@ import { defineConfig } from 'rollup'
 /**
  * Rollup config for npm publish
  *
- * ECMAScript (ES) modules for browser <script type="module">
- * or using `import` for modern browsers and Node.js scripts
+ * 1. CommonJS modules for Node.js `require()`
+ *
+ * 2. ECMAScript (ES) modules for browser <script type="module">
+ *    or using `import` for modern browsers and Node.js scripts
  */
 export default defineConfig(({ i: input }) => ({
   input,
@@ -14,11 +16,18 @@ export default defineConfig(({ i: input }) => ({
   /**
    * Output options
    */
-  output: {
-    entryFileNames: '[name].mjs',
-    format: 'es',
-    preserveModules: true
-  },
+  output: [
+    {
+      entryFileNames: '[name].js',
+      format: 'cjs',
+      preserveModules: true
+    },
+    {
+      entryFileNames: '[name].mjs',
+      format: 'es',
+      preserveModules: true
+    }
+  ],
 
   /**
    * Input plugins

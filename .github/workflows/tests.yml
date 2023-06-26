@@ -216,7 +216,7 @@ jobs:
         run: ${{ matrix.task.run }}
 
   package:
-    name: Export ${{ matrix.conditions }}, Node.js ${{ matrix.node-version }}
+    name: Export ${{ join(matrix.conditions, ' ') }}, Node.js ${{ matrix.node-version }}
     runs-on: ${{ inputs.runner || 'ubuntu-latest' }}
     needs: [install, build]
 
@@ -255,7 +255,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Export ${{ matrix.conditions }}, Node.js ${{ matrix.node-version }}
+      - name: Export ${{ join(matrix.conditions, ' ') }}, Node.js ${{ matrix.node-version }}
         env:
           # Node.js conditions override from "require" to "import" etc
           # https://nodejs.org/api/cli.html#-c-condition---conditionscondition
@@ -265,7 +265,7 @@ jobs:
           node --eval "console.log(require.resolve('govuk-frontend'))"${{ env.FLAGS }}
           node --eval "console.log(require.resolve('govuk-frontend/package.json'))"${{ env.FLAGS }}
           node --eval "console.log(require.resolve('govuk-frontend/dist/govuk/i18n.js'))"${{ env.FLAGS }}
-          node --eval "console.log(require.resolve('govuk-frontend/dist/govuk-esm/i18n.mjs'))"${{ env.FLAGS }}
+          node --eval "console.log(require.resolve('govuk-frontend/dist/govuk/i18n.mjs'))"${{ env.FLAGS }}
 
   regression:
     name: Percy

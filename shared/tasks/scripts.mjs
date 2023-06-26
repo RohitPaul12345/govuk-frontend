@@ -56,12 +56,23 @@ export async function compileJavaScript ([modulePath, { configPath, srcPath, des
 
     // Compile JavaScript to output format
     await Promise.all(options.output.map((output) => {
-      file.ext = ['es', 'esm', 'module'].includes(output.format)
-        ? '.mjs'
-        : '.js'
+      switch (output.format) {
+        case 'es':
+        case 'esm':
+        case 'module':
+          file.ext = output.compact
+            ? '.min.mjs'
+            : '.mjs'
+          break
+
+        default:
+          file.ext = output.compact
+            ? '.min.js'
+            : '.js'
+      }
 
       // Update basename with new extension
-      file.base = `${file.name}${file.ext}`
+      file.base = `${output.preserveModules ? file.name : `${file.name}.bundle`}${file.ext}`
 
       return bundle.write({
         ...output,

@@ -10,18 +10,13 @@ import gulp from 'gulp'
  * @type {import('govuk-frontend-tasks').TaskFunction}
  */
 export const compile = (options) => gulp.series(
-  task.name('compile:js', () =>
+  task.name("compile:js 'iife'", () =>
     scripts.compile('all.mjs', {
       ...options,
 
       srcPath: join(options.srcPath, 'javascripts'),
       destPath: join(options.destPath, 'javascripts'),
-      configPath: join(options.basePath, 'rollup.config.mjs'),
-
-      // Rename with `*.bundle.min.mjs` extension
-      filePath ({ dir, name }) {
-        return join(dir, `${name}.bundle.min.mjs`)
-      }
+      configPath: join(options.basePath, 'rollup.config.mjs')
     })
   ),
 

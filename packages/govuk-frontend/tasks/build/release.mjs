@@ -24,16 +24,16 @@ export default (options) => gulp.series(
   ),
 
   // Compile GOV.UK Frontend JavaScript
-  task.name('compile:js', () =>
+  task.name("compile:js 'release'", () =>
     scripts.compile('all.mjs', {
       ...options,
 
       srcPath: join(options.srcPath, 'govuk'),
       configPath: join(options.basePath, 'rollup.release.config.mjs'),
 
-      // Rename using package name (versioned) and `*.min.js` extension
-      filePath ({ dir, name }) {
-        return join(dir, `${name.replace(/^all/, pkg.name)}-${pkg.version}.min.js`)
+      // Rename using package name (versioned)
+      filePath ({ dir, name, ext }) {
+        return join(dir, `${name.replace(/^all/, pkg.name)}-${pkg.version}${ext}`)
       }
     })
   ),
