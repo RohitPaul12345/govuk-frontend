@@ -4,6 +4,7 @@
   "version": "4.6.0",
   "main": "dist/govuk/all.bundle.js",
   "module": "dist/govuk/all.mjs",
+  "browser": "dist/govuk/all.bundle.js",
   "sass": "dist/govuk/all.scss",
   "files": [
     "dist",
@@ -13,6 +14,12 @@
   ],
   "exports": {
     ".": {
+      "browser": {
+        "sass": "./dist/govuk/all.scss",
+        "import": "./dist/govuk/all.bundle.mjs",
+        "require": "./dist/govuk/all.bundle.js",
+        "default": "./dist/govuk/all.bundle.js"
+      },
       "sass": "./dist/govuk/all.scss",
       "import": "./dist/govuk/all.mjs",
       "require": "./dist/govuk/all.js",

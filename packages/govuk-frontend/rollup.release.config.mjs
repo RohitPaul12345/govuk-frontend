@@ -1,5 +1,6 @@
 import replace from '@rollup/plugin-replace'
 import terser from '@rollup/plugin-terser'
+import * as GOVUKFrontend from 'govuk-frontend/src/govuk/all.mjs'
 import { pkg } from 'govuk-frontend-config'
 import { componentPathToModuleName } from 'govuk-frontend-lib/names'
 import { defineConfig } from 'rollup'
@@ -14,6 +15,18 @@ export default defineConfig(({ i: input }) => ({
    * Output options
    */
   output: [
+    /**
+     * ECMAScript (ES) module bundles for browser <script type="module">
+     * or using `import` for modern browsers and Node.js scripts
+     */
+    {
+      compact: true,
+      format: 'es',
+
+      // Bundled modules
+      preserveModules: false
+    },
+
     /**
      * Universal Module Definition (UMD) bundle for browser <script>
      * `window` globals and compatibility with CommonJS and AMD `require()`
@@ -44,6 +57,7 @@ export default defineConfig(({ i: input }) => ({
     }),
     terser({
       format: { comments: false },
+      mangle: { reserved: Object.keys(GOVUKFrontend) },
 
       // Include sources content from source maps to inspect
       // GOV.UK Frontend and other dependencies' source code

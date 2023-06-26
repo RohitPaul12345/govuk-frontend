@@ -74,13 +74,30 @@ describe('packages/govuk-frontend/dist/', () => {
         join(requirePath, `${name}.js.map`) // with source map
       ]))
 
-      // Only package entries and components are compiled to UMD bundles
+      // Only package entries and components are compiled to non-minified ES module + UMD bundles
       .flatMap(mapPathTo(['**/govuk/{all,components/**/*}.mjs'], ({ dir: requirePath, name }) => [
         join(requirePath, `${name}.mjs`),
 
         // UMD bundles for compatibility (e.g. Rails Asset Pipeline)
         join(requirePath, `${name}.bundle.js`),
-        join(requirePath, `${name}.bundle.js.map`) // with source map
+        join(requirePath, `${name}.bundle.js.map`), // with source map
+
+        // ES module bundles for browsers
+        join(requirePath, `${name}.bundle.mjs`),
+        join(requirePath, `${name}.bundle.mjs.map`) // with source map
+      ]))
+
+      // Only main package entry is compiled to minified ES module + UMD bundles
+      .flatMap(mapPathTo(['**/govuk/all.mjs'], ({ dir: requirePath }) => [
+        join(requirePath, 'all.mjs'),
+
+        // UMD bundles for compatibility (e.g. Rails Asset Pipeline), minified
+        join(requirePath, 'all.bundle.min.js'),
+        join(requirePath, 'all.bundle.min.js.map'), // with source map
+
+        // ES module bundles for browsers, minified
+        join(requirePath, 'all.bundle.min.mjs'),
+        join(requirePath, 'all.bundle.min.mjs.map') // with source map
       ]))
 
       // Add Autoprefixer prefixes to all source '*.scss' files
