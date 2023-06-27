@@ -33,9 +33,7 @@ $govuk-font-family-print: sans-serif !default;
 /// @type Boolean
 /// @access public
 
-$govuk-include-default-font-face: (
-  $govuk-font-family == $govuk-font-family-gds-transport
-) !default;
+$govuk-include-default-font-face: ($govuk-font-family == $govuk-font-family-gds-transport) !default;
 
 // =========================================================
 // Font weights
