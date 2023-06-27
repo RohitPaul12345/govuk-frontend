@@ -75,8 +75,8 @@
     "postcss-scss": "^4.0.6",
     "prettier": "^2.8.8",
     "standard": "^17.1.0",
-    "stylelint": "^14.16.1",
-    "stylelint-config-gds": "^0.3.0",
+    "stylelint": "^15.9.0",
+    "stylelint-config-gds": "github:alphagov/stylelint-config-gds#stylelint-15",
     "stylelint-order": "^6.0.3",
     "typescript": "^5.1.3"
   },
