@@ -1,15 +1,15 @@
 const { ESLint } = require('eslint')
 
 const commands = {
-  // ESLint's configuration makes it ignore built files in `dist` or `packages/govuk-frontend/dist`
-  // that we want left alone, as well as the polyfills.
-  // The glob used by lint-staged to trigger the linting on commit isn't aware
-  // of that ignore list, so will ask ESLint to lint those files.
-  // This makes ESLint raise a warning for these files, which errors the linting
-  // because we use `--max-warnings 0`.
-  // To avoid that, we need to filter out files ignored by ESLint,
-  // as recommended by lint-staged.
-  //
+  /* ESLint's configuration makes it ignore built files in `dist` or `packages/govuk-frontend/dist`
+   that we want left alone, as well as the polyfills.
+   The glob used by lint-staged to trigger the linting on commit isn't aware
+   of that ignore list, so will ask ESLint to lint those files.
+   This makes ESLint raise a warning for these files, which errors the linting
+   because we use `--max-warnings 0`.
+   To avoid that, we need to filter out files ignored by ESLint,
+   as recommended by lint-staged.*/
+  
   // https://github.com/okonet/lint-staged#how-can-i-ignore-files-from-eslintignore
   eslint: filterTask('npm run lint:js:cli -- --fix'),
   prettier: 'npm run lint:prettier:cli -- --write',
